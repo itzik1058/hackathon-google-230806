@@ -84,13 +84,15 @@ def total_solar_irradiance(latitude: float, longitude: float) -> float:
 def solar_features(buildings: Any) -> BuildingSolar:
     geometry = building_features(buildings)
     tsi = total_solar_irradiance(*geometry.coords[0])
-    yearly_energy_kwh = tsi * geometry.area * AREA_UTILIZATION * SOLAR_EFFICIENCY
-    year_saving_nis = yearly_energy_kwh * SOLAR_PRICE_NIS * (1 + TAX_RATE)
+    year_energy_kwh = tsi * geometry.area * AREA_UTILIZATION * SOLAR_EFFICIENCY
+    year_saving_nis = year_energy_kwh * SOLAR_PRICE_NIS * (1 + TAX_RATE)
     construction_cost = CONSTRUCTION_COST * geometry.area
     yearly_saving_nis = [
         year_saving_nis * year - construction_cost for year in range(15)
     ]
     return BuildingSolar(
         geometry=geometry,
+        year_energy_kwh=year_energy_kwh,
+        construction_cost=construction_cost,
         yearly_saving_nis=yearly_saving_nis,
     )

@@ -8,4 +8,6 @@ class BuildingGeometry(BaseModel):
 
 class BuildingSolar(BaseModel):
     geometry: BuildingGeometry
+    year_energy_kwh: float
+    construction_cost: float
     yearly_saving_nis: list[float]
