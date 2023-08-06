@@ -16,8 +16,6 @@ solar = "solar.main:run"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-geopandas = "^0.13.2"
-geopy = "^2.3.0"
 osmnx = "^1.6.0"
 fastapi = "^0.101.0"
 uvicorn = { extras = ["standard"], version = "^0.23.2" }
@@ -27,6 +25,7 @@ pre-commit = "^3.3.3"
 black = "^23.7.0"
 ruff = "^0.0.282"
 mypy = "^1.4.1"
+ipykernel = "^6.25.0"
 
 [tool.mypy]
 ignore_missing_imports = true
