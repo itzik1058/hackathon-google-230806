@@ -3,8 +3,8 @@ import logging
 from fastapi import APIRouter, HTTPException
 from osmnx import features_from_address, features_from_point
 
+from solar.geometry.models import GeometryResponse
 from solar.geometry.util import building_features
-from solar.models import GeometryResponse
 
 router = APIRouter()
 

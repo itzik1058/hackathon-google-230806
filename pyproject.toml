@@ -10,6 +10,7 @@ authors = ["Itzik <itzik1058@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "solar" }]
+include = ["resources/*"]
 
 [tool.poetry.scripts]
 solar = "solar.main:run"
