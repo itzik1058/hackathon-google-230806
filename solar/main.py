@@ -1,14 +1,12 @@
-import logging
 from os import getenv
 
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from osmnx import features_from_address
 
-from solar.models import GeometryResponse
+from solar.geometry.router import router as geometry_router
 
-app = FastAPI()
+app = FastAPI(title="Solar")
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,23 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/geometry")
-def geometry(address: str) -> GeometryResponse:
-    try:
-        buildings = features_from_address(
-            address,
-            tags={"building": True},
-            dist=15,
-        )
-    except Exception as e:
-        logging.exception(e)
-        raise HTTPException(status_code=404, detail="Address not found")
-    building = buildings.iloc[0]
-    building_3857 = buildings.to_crs("epsg:3857").iloc[0]
-    coords = list(building.geometry.exterior.coords)
-    area = building_3857.geometry.area
-    return GeometryResponse(coords=coords, area=area)
+app.include_router(geometry_router, prefix="/geometry")
 
 
 def run() -> None:
