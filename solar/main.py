@@ -1,4 +1,5 @@
 import logging
+from os import getenv
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
@@ -37,7 +38,11 @@ def geometry(address: str) -> GeometryResponse:
 
 
 def run() -> None:
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=int(getenv("PORT", 8000)),
+    )
 
 
 if __name__ == "__main__":
