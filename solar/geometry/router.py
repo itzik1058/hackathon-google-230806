@@ -1,10 +1,7 @@
-import logging
+from fastapi import APIRouter
 
-from fastapi import APIRouter, HTTPException
-from osmnx import features_from_address, features_from_point
-
-from solar.geometry.models import GeometryResponse
-from solar.geometry.util import building_features
+from solar.geometry.models import BuildingSolar
+from solar.geometry.service import solar_by_address, solar_by_point
 
 router = APIRouter()
 
@@ -13,17 +10,8 @@ router = APIRouter()
 async def geometry_by_address(
     address: str,
     radius: int = 20,
-) -> GeometryResponse:
-    try:
-        buildings = features_from_address(
-            address,
-            tags={"building": True},
-            dist=radius,
-        )
-    except Exception as e:
-        logging.exception(e)
-        raise HTTPException(status_code=404, detail="Address not found")
-    return building_features(buildings)
+) -> BuildingSolar:
+    return solar_by_address(address, radius)
 
 
 @router.get("/from-point")
@@ -31,14 +19,5 @@ async def geometry_from_point(
     latitude: float,
     longitude: float,
     radius: int = 20,
-) -> GeometryResponse:
-    try:
-        buildings = features_from_point(
-            (latitude, longitude),
-            tags={"building": True},
-            dist=radius,
-        )
-    except Exception as e:
-        logging.exception(e)
-        raise HTTPException(status_code=404, detail="Address not found")
-    return building_features(buildings)
+) -> BuildingSolar:
+    return solar_by_point((latitude, longitude), radius)

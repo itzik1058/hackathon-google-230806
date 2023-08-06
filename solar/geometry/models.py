@@ -1,7 +1,11 @@
 from pydantic import BaseModel
 
 
-class GeometryResponse(BaseModel):
+class BuildingGeometry(BaseModel):
     coords: list[tuple[float, float]]
     area: float
-    irradiance: float
+
+
+class BuildingSolar(BaseModel):
+    geometry: BuildingGeometry
+    yearly_saving_nis: list[float]
