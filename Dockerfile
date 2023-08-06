@@ -6,4 +6,6 @@ COPY . /code
 
 RUN pip install -e /code
 
+EXPOSE 8000/tcp
+
 CMD ["solar"]
