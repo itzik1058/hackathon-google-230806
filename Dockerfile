@@ -1,9 +1,9 @@
-FROM python:3.11
+FROM python:3.11-slim
 
-WORKDIR /dist
+WORKDIR /code
 
-COPY dist/solar-0.1.0-py3-none-any.wheel /dist/solar.wheel
+COPY . /code
 
-RUN pip install -r /dist/solar.wheel
+RUN pip install -e /code
 
 CMD ["solar"]
